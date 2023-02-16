@@ -1,0 +1,31 @@
+name: Build & Test
+
+on: [push, pull_request]
+  
+jobs:
+  build:
+
+    runs-on: windows-latest
+  
+    defaults:
+      run:
+        working-directory: ./src
+        
+        
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+      
+    - name: Build
+      run: msbuild -m -t:Rebuild -p:Configuration=Release -bl:continous-clearing.binlog -noconlog LicenseClearingTool.sln
+    
+    - name: Archive Build Log
+      uses: actions/upload-artifact@v3
+      if: ${{ success() || failure() }}
+      with:
+        name: log-win-x64-release
+        path: |
+          src/*.binlog
