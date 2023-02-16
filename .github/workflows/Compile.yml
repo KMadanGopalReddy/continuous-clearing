@@ -14,7 +14,7 @@ jobs:
         
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
       
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
@@ -23,7 +23,7 @@ jobs:
       run: msbuild -m -t:Rebuild -p:Configuration=Release -bl:continous-clearing.binlog -noconlog LicenseClearingTool.sln
     
     - name: Archive Build Log
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v2
       if: ${{ success() || failure() }}
       with:
         name: log-win-x64-release
