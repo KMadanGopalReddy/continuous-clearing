@@ -31,6 +31,25 @@ jobs:
       uses: actions/upload-artifact@v2
       if: ${{ success() || failure() }}
       with:
-        name: log-win-x64-release
+        name: Compile_Solution_log
         path: |
           src/*.binlog
+          
+    - name: Create zip
+      id: packageBuildResults
+      run: |
+        $sourceFolder = Join-Path $env:GITHUB_WORKSPACE "_Out" | Join-Path -ChildPath "*"
+        $outFolder = Join-Path $env:GITHUB_WORKSPACE "_Out" | Join-Path -ChildPath "LicenseClearingTool" 
+        New-Item -ItemType Directory -Force -Path $outFolder
+        $fileName = "LicenseClearingTool.zip"
+        Write-Host "Filename: '$fileName'"
+        Write-Host "::set-output name=LCT-fileName::$($fileName)"
+        $outPath = Join-Path $outFolder $fileName
+        Compress-Archive -DestinationPath $outPath -Path $sourceFolder -CompressionLevel Optimal
+      
+    - name: Archive Build Result
+      uses: actions/upload-artifact@v2
+      with:
+        name: LicenseClearingTool
+        path: |
+           src/_Out/LicenseClearingTool
