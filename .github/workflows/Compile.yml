@@ -38,12 +38,14 @@ jobs:
     - name: Create zip
       id: packageBuildResults
       run: |
-        $sourceFolder = Join-Path $env:GITHUB_WORKSPACE "_Out" | Join-Path -ChildPath "*"
-        $outFolder = Join-Path $env:GITHUB_WORKSPACE "_Out" | Join-Path -ChildPath "LicenseClearingTool" 
+        $sourceFolder = Join-Path $env:GITHUB_WORKSPACE "out" | Join-Path -ChildPath "*"
+        $outFolder = Join-Path $env:GITHUB_WORKSPACE "out" | Join-Path -ChildPath "LicenseClearingTool" 
         New-Item -ItemType Directory -Force -Path $outFolder
         $fileName = "LicenseClearingTool.zip"
         Write-Host "Filename: '$fileName'"
-        Write-Host "::set-output name=LCT-fileName::$($fileName)"
+        Write-Host "sourceFolder: '$sourceFolder'"
+        Write-Host "Outfolder: '$outFolder'"
+        dir
         $outPath = Join-Path $outFolder $fileName
         Compress-Archive -DestinationPath $outPath -Path $sourceFolder -CompressionLevel Optimal
       
@@ -52,4 +54,4 @@ jobs:
       with:
         name: LicenseClearingTool
         path: |
-           _Out/LicenseClearingTool
+           out/LicenseClearingTool
