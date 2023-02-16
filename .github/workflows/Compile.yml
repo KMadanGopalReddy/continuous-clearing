@@ -52,4 +52,4 @@ jobs:
       with:
         name: LicenseClearingTool
         path: |
-           src/_Out/LicenseClearingTool
+           _Out/LicenseClearingTool
