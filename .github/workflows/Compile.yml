@@ -56,6 +56,14 @@ jobs:
         path: |
            out/LicenseClearingTool
            
-    #- name: Test
-     # run: |
-      #  dotnet test --no-build --configuration Release
+    - name: Test
+      run: |
+        $TestProjects = Get-ChildItem -Path *.UTest.csproj -Recurse
+        foreach ($Project in $TestProjects) 
+        {                 
+                Write-Host $Project.DirectoryName
+                $TestProject = $Project.DirectoryName
+                Push-Location $Project.PSParentPath
+                dotnet test --no-build --configuration Release
+        }
+      
