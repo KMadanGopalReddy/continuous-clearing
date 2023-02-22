@@ -69,7 +69,7 @@ jobs:
       
     - name: Create Nuget Packages
       run: |
-        $packageOutFolder = Join-Path $env:GITHUB_WORKSPACE "out" | Join-Path -ChildPath "NuGet"
+        $packageOutFolder = Join-Path $env:GITHUB_WORKSPACE "out"
         dotnet pack LicenseClearingTool.sln --no-build --configuration Release --output $packageOutFolder
          
         Write-Host "Save filenames of created NuGet packages..."
