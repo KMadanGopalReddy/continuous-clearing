@@ -73,7 +73,7 @@ jobs:
         dotnet pack LicenseClearingTool.sln --no-build --configuration Release --output $packageOutFolder
          
         Write-Host "Save filenames of created NuGet packages..."
-        $packages = gci -Path $packageOutFolder -File -Filter "*.nupkg" | select -ExpandProperty Name
+        $packages = gci -Path $packageOutFolder -File -Filter "*.nupkg" 
           
                 
     - name: Archive NuGet Packages
