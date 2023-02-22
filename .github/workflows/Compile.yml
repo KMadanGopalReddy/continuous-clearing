@@ -69,12 +69,12 @@ jobs:
       
     - name: Create Nuget Packages
       run: |
-        $packageOutFolder = Join-Path $env:GITHUB_WORKSPACE "out"
+        $packageOutFolder = Join-Path $env:GITHUB_WORKSPACE "out" | Join-Path -ChildPath "NuGet"
         dotnet pack LicenseClearingTool.sln --no-build --configuration Release --output $packageOutFolder
          
         Write-Host "Save filenames of created NuGet packages..."
-        $packages = gci -Path $packageOutFolder -File -Filter "*.nupkg" 
-          
+        $packages = gci -Path $packageOutFolder -File "*.nupkg" 
+        Write-Host "Binary NuGet Package: '$packages'"  
                 
     - name: Archive NuGet Packages
       uses: actions/upload-artifact@v2
