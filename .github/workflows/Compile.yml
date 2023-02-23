@@ -72,7 +72,7 @@ jobs:
     - name: Create Nuget Packages    
       run: |
         echo $env:GITHUB_WORKSPACE
-        nuget pack $env:GITHUB_WORKSPACE\CA.nuspec  
+        nuget pack ${GITHUB_WORKSPACE}/CA.nuspec  
         dir 
              
     #- name: Create Nuget Packages
