@@ -71,8 +71,8 @@ jobs:
      #   }
     - name: Create Nuget Packages    
       run: |
-        echo $env:GITHUB_WORKSPACE
-        nuget pack ${GITHUB_WORKSPACE}/CA.nuspec  
+        echo ${{ github.workspace }}
+        nuget pack CA.nuspec  
         dir 
              
     #- name: Create Nuget Packages
