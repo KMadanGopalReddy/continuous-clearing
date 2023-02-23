@@ -71,9 +71,9 @@ jobs:
      #   }
     - name: Create Nuget Packages    
       run: |
-        echo ${{ github.workspace }}
+        nuget
         nuget pack CA.nuspec  
-        dir 
+         
              
     #- name: Create Nuget Packages
      # run: |
