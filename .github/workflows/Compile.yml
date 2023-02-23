@@ -71,11 +71,10 @@ jobs:
      #   }
     - name: Create Nuget Packages    
       run: |
-        nuget pack $GITHUB_WORKSPACE\CA.nuspec  
+        echo $env:GITHUB_WORKSPACE
+        nuget pack $env:GITHUB_WORKSPACE\CA.nuspec  
         dir 
-        echo ${{ github.workspace }}
-        echo $GITHUB_WORKSPACE
-        
+             
     #- name: Create Nuget Packages
      # run: |
      #   $packageOutFolder = Join-Path $env:GITHUB_WORKSPACE "out" | Join-Path -ChildPath "NuGet"
