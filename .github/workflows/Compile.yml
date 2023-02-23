@@ -71,10 +71,10 @@ jobs:
      #   }
     - name: Create Nuget Packages    
       run: |
-        nuget pack CA.nuspec  
-        Write-Host "Save filenames of created NuGet packages..."
+        nuget pack $GITHUB_WORKSPACE\CA.nuspec  
         dir 
-        working-directory: ../
+        echo ${{ github.workspace }}
+        echo $GITHUB_WORKSPACE
         
     #- name: Create Nuget Packages
      # run: |
