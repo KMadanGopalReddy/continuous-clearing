@@ -10,7 +10,10 @@ jobs:
     defaults:
       run:
         working-directory: ./src
-        
+    
+    outputs:
+      semver: ${{ steps.gitversion.outputs.semver }}
+      LicenseClearingTool: ${{ steps.packageBuildResults.outputs.LicenseClearingTool }}
         
     steps:
     - name: Checkout
@@ -20,7 +23,12 @@ jobs:
     - uses: nuget/setup-nuget@v1
       with:
         nuget-version: '5.x'
-      
+    
+    - name: Store SemVer
+      id: gitversion
+      run: |
+         Write-Host "::set-output name=semver::$($env:GitVersion_SemVer)" 
+     
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
     
@@ -75,7 +83,7 @@ jobs:
         nuget pack CA.nuspec  
          
              
-    #- name: Create Nuget Packages
+    #- name: Create Nuget Package
      # run: |
      #   $packageOutFolder = Join-Path $env:GITHUB_WORKSPACE "out" | Join-Path -ChildPath "NuGet"
      #   dotnet pack LicenseClearingTool.sln --no-build --configuration Release --output $packageOutFolder
@@ -90,3 +98,49 @@ jobs:
         name: nuget-LicenseClearingTool
         path: |
           src/LicenseClearingTool.1.0.0.nupkg
+
+
+  release:
+    if: github.ref == 'refs/heads/Pipeline_test'
+    runs-on: windows-latest
+    needs: build
+    defaults:
+      run: 
+        shell: pwsh
+    steps:
+      - name: Download Build Result
+        uses: actions/download-artifact@v2
+        with:
+          name: LicenseClearingTool
+
+      - name: Download NuGet Package
+        uses: actions/download-artifact@v2
+        with:
+          name: nuget-LicenseClearingTool
+      
+      - name: Debug
+        run: |
+          tree
+      
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ needs.build.outputs.semver }}
+          release_name: Release ${{ needs.build.outputs.semver }}
+          body: |
+            ${{ github.event.head_commit.message }}
+          draft: true
+          prerelease: true   
+          
+      - name: Upload Zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./${{ needs.build.outputs.LicenseClearingTool }}
+          asset_name: ${{ needs.build.outputs.LicenseClearingTool }}
+          asset_content_type: application/zip
