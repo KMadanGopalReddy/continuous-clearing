@@ -101,7 +101,8 @@ jobs:
 
 
   release:
-    if: github.ref == 'refs/heads/Pipeline_test'
+    if: github.ref == 'refs/heads/main'
+#    if: github.ref == 'refs/heads/Pipeline_test'
     runs-on: windows-latest
     needs: build
     defaults:
