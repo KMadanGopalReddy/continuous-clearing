@@ -84,9 +84,9 @@ jobs:
      #   $packages = gci -Path $packageOutFolder -File "*.nupkg" 
         #Write-Host "Binary NuGet Package: '$packages'"  
                 
-  #  - name: Archive NuGet Packages
-   #   uses: actions/upload-artifact@v2
-    #  with:
-    #    name: nuget-LicenseClearingTool
-     #   path: |
-      #    out/NuGet
+    - name: Archive NuGet Packages
+      uses: actions/upload-artifact@v2
+      with:
+        name: nuget-LicenseClearingTool
+        path: |
+          src/LicenseClearingTool.1.0.0.nupkg
