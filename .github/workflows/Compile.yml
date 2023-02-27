@@ -24,10 +24,13 @@ jobs:
       with:
         nuget-version: '5.x'
     
-    - name: Store SemVer
+    - name: Gitversion
       id: gitversion
       run: |
+        dotnet tool install --global GitVersion.Tool --version 5.3.6
+        echo %GITVERSION_SEMVER%
         Write-Host "::set-output name=semver::$($env:GitVersion_SemVer)"
+        dotnet gitversion /output file /outputfile version.json
      
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
