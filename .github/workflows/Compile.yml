@@ -52,7 +52,7 @@ jobs:
         $sourceFolder = Join-Path $env:GITHUB_WORKSPACE "out" | Join-Path -ChildPath "*"
         $outFolder = Join-Path $env:GITHUB_WORKSPACE "out" | Join-Path -ChildPath "LicenseClearingTool" 
         New-Item -ItemType Directory -Force -Path $outFolder
-        $fileName = "LicenseClearingTool.zip"
+        $fileName = "LicenseClearingTool-$($env:GitVersion_SemVer).zip"
         Write-Host "Filename: '$fileName'"
         Write-Host "sourceFolder: '$sourceFolder'"
         Write-Host "Outfolder: '$outFolder'"
