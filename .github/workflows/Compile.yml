@@ -24,15 +24,17 @@ jobs:
       with:
         nuget-version: '5.x'
     
-    - name: Gitversion
-      if: github.ref == 'refs/heads/main'
-      id: gitversion
+
+     
+    - name: Determine Version
+      uses: gittools/actions/gitversion/execute@v0.9.7
+
+    - name: Display SemVer
       run: |
-        dotnet tool install --global GitVersion.Tool --version 5.3.6
-        dotnet gitversion /output buildserver /nofetch
-        echo %GITVERSION_SEMVER%
-        Write-Host "::set-output name=semver::$($env:GitVersion_SemVer)"
-        dotnet gitversion /output file /outputfile version.json
+        echo "SemVer: $GITVERSION_SEMVER" 
+     
+     
+     
      
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
