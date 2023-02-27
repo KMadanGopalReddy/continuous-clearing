@@ -25,6 +25,7 @@ jobs:
         nuget-version: '5.x'
     
     - name: Gitversion
+      if: github.ref == 'refs/heads/main'
       id: gitversion
       run: |
         dotnet tool install --global GitVersion.Tool --version 5.3.6
