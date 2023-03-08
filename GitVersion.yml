@@ -1,6 +1,3 @@
-assembly-versioning-scheme: MajorMinorPatchTag
-assembly-file-versioning-scheme: MajorMinorPatchTag
-assembly-informational-format: '{SemVer}'
 mode: Mainline
 next-version: 3.0.0
 branches: {}
