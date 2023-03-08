@@ -14,7 +14,7 @@ jobs:
       - name: Download NuGet Packages from Release
         run: |
             Write-Host "GITHUB_REF: '$($env:GITHUB_REF)'"
-            $prefix = "refs/heads/"
+            $prefix = "refs/tags/"
             $name = $($env:GITHUB_REF).Substring($prefix.Length)
             Write-Host "name: '$name'"
             gh release download $name --repo siemens/continuous-clearing --pattern '*.nupkg'
