@@ -162,12 +162,14 @@ jobs:
           *.nupkg
           
     - name: Build the Docker image
+      if: ${{ false }}  # disable for now
       run: |
         docker build . --file Dockerfile --tag siemens_licenseclearingtool:LicenseClearingTool-$($env:GitVersion_SemVer)
         docker save siemens_licenseclearingtool:LicenseClearingTool-$($env:GitVersion_SemVer) -o LicenseClearingTool-$($env:GitVersion_SemVer).tar
       
 
     - name: Archive docker image
+      if: ${{ false }}  # disable for now
       uses: actions/upload-artifact@v2
       with:
         name: docker-LicenseClearingTool
